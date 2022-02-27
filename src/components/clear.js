@@ -9,8 +9,8 @@ export default function Clear() {
     return (
       <Box
         sx={{
-          width: "100%",
-          height: "100%",
+          width: "100vw",
+          height: "100vh",
           position: "fixed",
           fontSize: "120px",
           backgroundColor: "rgba(0, 0, 0, .8)",
@@ -29,8 +29,8 @@ export default function Clear() {
     return (
       <Box
         sx={{
-          width: "100%",
-          height: "100%",
+          width: "100vw",
+          height: "100vh",
           position: "fixed",
           fontSize: "120px",
           backgroundColor: "rgba(0, 0, 0, .8)",

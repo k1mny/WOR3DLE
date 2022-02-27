@@ -59,10 +59,10 @@ export default function SoftKeyboard(props) {
   return (
     <Box
       sx={{
-        width: "30%",
-        height: "200px",
+        width: "100%",
+        height: "150px",
         bottom: "0",
-        left: "0",
+        backgroundColor: "#4c4c4c",
         position: "fixed",
         display: "flex",
         flexDirection: "column",
@@ -71,50 +71,52 @@ export default function SoftKeyboard(props) {
         zIndex: "5",
       }}
     >
-      <Keyboard
-        keyboardRef={(r) => (keyboard.current = r)}
-        layoutName={"default"}
-        onKeyPress={onKeyPress}
-        layout={{
-          default: [
-            "q w e r t y u i o p",
-            "a s d f g h j k l",
-            "{enter} z x c v b n m {backspace}",
-          ],
-        }}
-        display={{
-          q: "Q",
-          w: "W",
-          e: "E",
-          r: "R",
-          t: "T",
-          y: "Y",
-          u: "U",
-          i: "I",
-          o: "O",
-          p: "P",
-          a: "A",
-          s: "S",
-          d: "D",
-          f: "F",
-          g: "G",
-          h: "H",
-          j: "J",
-          k: "K",
-          l: "L",
-          z: "Z",
-          x: "X",
-          c: "C",
-          v: "V",
-          b: "B",
-          n: "N",
-          m: "M",
-          "{enter}": "ENTER",
-          "{backspace}": "&lArr;",
-        }}
-        physicalKeyboardHighlight={true}
-        physicalKeyboardHighlightPress={true}
-      />
+      <Box sx={{ width: "100%", minWidth: "300px", maxWidth: "500px" }}>
+        <Keyboard
+          keyboardRef={(r) => (keyboard.current = r)}
+          layoutName={"default"}
+          onKeyPress={onKeyPress}
+          layout={{
+            default: [
+              "q w e r t y u i o p",
+              "a s d f g h j k l",
+              "{enter} z x c v b n m {backspace}",
+            ],
+          }}
+          display={{
+            q: "Q",
+            w: "W",
+            e: "E",
+            r: "R",
+            t: "T",
+            y: "Y",
+            u: "U",
+            i: "I",
+            o: "O",
+            p: "P",
+            a: "A",
+            s: "S",
+            d: "D",
+            f: "F",
+            g: "G",
+            h: "H",
+            j: "J",
+            k: "K",
+            l: "L",
+            z: "Z",
+            x: "X",
+            c: "C",
+            v: "V",
+            b: "B",
+            n: "N",
+            m: "M",
+            "{enter}": "ENTER",
+            "{backspace}": "&lArr;",
+          }}
+          physicalKeyboardHighlight={true}
+          physicalKeyboardHighlightPress={true}
+        />
+      </Box>
     </Box>
   );
 }
