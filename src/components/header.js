@@ -34,7 +34,7 @@ export default function Header() {
           <IconButton
             color='inherit'
             aria-label='Info'
-            sx={{ flexBasis: "5%" }}
+            sx={{ flexBasis: "2%" }}
             onClick={handleOpenInfo}
           >
             <HelpOutlineOutlinedIcon />
@@ -42,16 +42,16 @@ export default function Header() {
           <Typography
             variant='h1'
             color='inherit'
-            fontSize='20px'
+            fontSize='2rem'
             align='center'
-            sx={{ flexBasis: "90%" }}
+            sx={{ flexBasis: "96%" }}
           >
             WORDLE 3D
           </Typography>
           <IconButton
             color='inherit'
             aria-label='Setting'
-            sx={{ flexBasis: "5%" }}
+            sx={{ flexBasis: "2%" }}
             onClick={handleOpenSettings}
           >
             <SettingsOutlinedIcon />

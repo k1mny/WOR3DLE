@@ -25,9 +25,8 @@ export default function Wordle3D() {
   return (
     <>
       <Clear />
-      <SoftKeyboard />
       <Header />
-      <Box sx={{ height: "calc(100vh - 150px)" }}>
+      <Box sx={{ height: "calc(100vh - 201px)" }}>
         <Canvas
           shadows
           gl={{ stencil: false, depth: false, alpha: false, antialias: false }}
@@ -58,6 +57,7 @@ export default function Wordle3D() {
           </RecoilBridge>
         </Canvas>
       </Box>
+      <SoftKeyboard />
     </>
   );
 }
