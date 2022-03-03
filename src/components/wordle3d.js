@@ -13,7 +13,7 @@ import BlockCheck from "./blockCheck";
 import Model from "./block";
 import SoftKeyboard from "./keyboard";
 import { Box } from "@mui/material";
-import Info from "./info";
+import Header from "./header";
 
 export default function Wordle3D() {
   // input chars
@@ -26,7 +26,7 @@ export default function Wordle3D() {
     <>
       <Clear />
       <SoftKeyboard />
-      <Info />
+      <Header />
       <Box sx={{ height: "calc(100vh - 150px)" }}>
         <Canvas
           shadows
@@ -53,7 +53,7 @@ export default function Wordle3D() {
                 ))}
               </group>
             </Physics>
-            <Stats />
+            {/* <Stats /> */}
             <Postprocessing />
           </RecoilBridge>
         </Canvas>
