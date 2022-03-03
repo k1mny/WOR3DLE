@@ -20,3 +20,8 @@ export const useContentsState = atom({
   key: "useContentsState",
   default: [],
 });
+
+export const useWrongMessageState = atom({
+  key: "useWrongMessageState",
+  default: "",
+});

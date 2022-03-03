@@ -7,6 +7,7 @@ import {
   useClearState,
   useContentsState,
   useWordInputState,
+  useWrongMessageState,
 } from "./states";
 import "react-simple-keyboard/build/css/index.css";
 import { checkInputWord } from "./logic";
@@ -16,6 +17,7 @@ export default function SoftKeyboard(props) {
   const [contents, setContents] = useRecoilState(useContentsState);
   const [clear, setClear] = useRecoilState(useClearState);
   const setBoxApi = useSetRecoilState(useBoxApiState);
+  const setWrongMessage = useSetRecoilState(useWrongMessageState);
   const keyboard = useRef();
 
   useEffect(() => {
@@ -31,9 +33,15 @@ export default function SoftKeyboard(props) {
   const onKeyPress = (button) => {
     if (button === "{enter}" && contents.length <= 30) {
       // setContents([...contents, ...wordInput]);
-      if (wordInput.length === 5 && checkInputWord(wordInput.toLowerCase())) {
-        setWordInput("");
-        keyboard.current.clearInput();
+      if (wordInput.length === 5) {
+        if (checkInputWord(wordInput.toLowerCase())) {
+          setWordInput("");
+          keyboard.current.clearInput();
+        } else {
+          setWrongMessage("Not in word list");
+        }
+      } else {
+        setWrongMessage("Not enough letters");
       }
     }
 

@@ -14,6 +14,7 @@ import Model from "./block";
 import SoftKeyboard from "./keyboard";
 import { Box } from "@mui/material";
 import Header from "./header";
+import PopoverMessage from "./popover/message";
 
 export default function Wordle3D() {
   // input chars
@@ -27,6 +28,7 @@ export default function Wordle3D() {
       <Clear />
       <Header />
       <Box sx={{ height: "calc(100vh - 201px)" }}>
+        <PopoverMessage />
         <Canvas
           shadows
           gl={{ stencil: false, depth: false, alpha: false, antialias: false }}
