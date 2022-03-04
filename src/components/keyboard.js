@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Keyboard from "react-simple-keyboard";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -11,12 +11,13 @@ import {
 } from "./states";
 import "react-simple-keyboard/build/css/index.css";
 import { checkInputWord } from "./logic";
+import { COLOR_CLEAR, COLOR_INCORRECT, COLOR_WRONG } from "./constants";
 
 export default function SoftKeyboard(props) {
   const [wordInput, setWordInput] = useRecoilState(useWordInputState);
   const [contents, setContents] = useRecoilState(useContentsState);
   const [clear, setClear] = useRecoilState(useClearState);
-  const setBoxApi = useSetRecoilState(useBoxApiState);
+  const [boxApi, setBoxApi] = useRecoilState(useBoxApiState);
   const setWrongMessage = useSetRecoilState(useWrongMessageState);
   const keyboard = useRef();
 
@@ -53,6 +54,7 @@ export default function SoftKeyboard(props) {
       }
     }
 
+    // word input
     if (
       button !== "{enter}" &&
       button !== "{backspace}" &&
@@ -63,6 +65,66 @@ export default function SoftKeyboard(props) {
       setContents([...contents, button.toUpperCase()]);
     }
   };
+
+  const getButtonTheme = useCallback(() => {
+    const correctChars = contents
+      .filter((c, idx) => {
+        if (
+          idx < boxApi.length &&
+          COLOR_CLEAR.equals(boxApi[idx].mat.current.color)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .join(" ");
+    const incorrectChars = contents
+      .filter((c, idx) => {
+        if (
+          idx < boxApi.length &&
+          COLOR_INCORRECT.equals(boxApi[idx].mat.current.color)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .join(" ");
+    const wrongChars = contents
+      .filter((c, idx) => {
+        if (
+          idx < boxApi.length &&
+          COLOR_WRONG.equals(boxApi[idx].mat.current.color)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .join(" ");
+    let buttonTheme = [];
+    if (correctChars.length > 0) {
+      buttonTheme.push({
+        class: "hg-correct",
+        buttons: correctChars.toLowerCase(),
+      });
+    }
+    if (incorrectChars.length > 0) {
+      buttonTheme.push({
+        class: "hg-incorrect",
+        buttons: incorrectChars.toLowerCase(),
+      });
+    }
+    if (wrongChars.length > 0) {
+      buttonTheme.push({
+        class: "hg-wrong",
+        buttons: wrongChars.toLowerCase(),
+      });
+    }
+
+    return buttonTheme;
+  }, [boxApi, contents]);
 
   return (
     <Box
@@ -121,6 +183,8 @@ export default function SoftKeyboard(props) {
             "{enter}": "ENTER",
             "{backspace}": "&lArr;",
           }}
+          theme={"hg-theme-default hg-layout-default myTheme"}
+          buttonTheme={getButtonTheme()}
           physicalKeyboardHighlight={true}
           physicalKeyboardHighlightPress={true}
         />
