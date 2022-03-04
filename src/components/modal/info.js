@@ -27,14 +27,14 @@ export default function ModalInfo(props) {
     >
       <Box sx={style}>
         <Typography id='modal-modal-title' variant='h6' component='h2'>
-          What's this?
+          What{"'"}s this?
         </Typography>
         <Typography id='modal-modal-description' sx={{ my: 2 }}>
           WOR3DLE is real time{" "}
           <Link href='https://www.nytimes.com/games/wordle/index.html'>
             Wordle
           </Link>
-          .<br /> Let's type and wordle in physics!
+          .<br /> Let{"'"}s type and wordle in physics!
         </Typography>
         <Divider />
         <Typography id='modal-modal-credit' sx={{ my: 2 }}>
