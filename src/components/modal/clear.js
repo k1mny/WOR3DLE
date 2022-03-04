@@ -117,15 +117,14 @@ export default function ModalClear() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            mt: 3,
           }}
         >
-          <Typography id='modal-modal-description' sx={{ my: 2 }}>
+          <Box id='modal-modal-description' sx={{ my: 3 }}>
             <Typography align='center'>{clearRowText}</Typography>
             {makeResult(boxApi).map((row, idx) => (
               <div key={idx}>{row}</div>
             ))}
-          </Typography>
+          </Box>
           <Divider />
           <Button
             variant='outlined'
