@@ -1,16 +1,33 @@
 import Head from "next/head";
+import { useEffect } from "react";
 import Wordle3D from "../components/wordle3d";
 
 export default function Home() {
+  // for mobile height
+  useEffect(() => {
+    const setFillHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    window.addEventListener("resize", setFillHeight);
+    setFillHeight();
+  }, []);
+
   return (
     <div>
       <Head>
         <title>WOR3DLE</title>
-        <meta name='description' content='3D version of Wordle' />
+        <meta name='description' content='Wordle in physics' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main style={{ width: "100vw", height: "100vh" }}>
+      <main
+        style={{
+          width: "100vw",
+          minHeight: "100vh",
+          minHeight: "calc(var(--vh, 1vh) * 100)",
+        }}
+      >
         <Wordle3D />
       </main>
     </div>
