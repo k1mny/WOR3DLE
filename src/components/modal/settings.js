@@ -1,4 +1,4 @@
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Link, Modal, Typography } from "@mui/material";
 import React from "react";
 
 const style = {
@@ -6,9 +6,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
+  maxWidth: "400px",
   bgcolor: "background.paper",
+  color: "white",
   border: "2px solid #000",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
@@ -27,7 +30,7 @@ export default function ModalSettings(props) {
           Settings
         </Typography>
         <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          No settings available now
         </Typography>
       </Box>
     </Modal>

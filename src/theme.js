@@ -2,12 +2,13 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: "#556cd6",
-    },
-    secondary: {
-      main: "#19857b",
-    },
+    mode: "dark",
+    // primary: {
+    //   main: "#556cd6",
+    // },
+    // secondary: {
+    //   main: "#19857b",
+    // },
   },
   components: {
     MuiAppBar: {

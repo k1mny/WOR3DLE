@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Wordle3D</title>
+        <title>WOR3DLE</title>
         <meta name='description' content='3D version of Wordle' />
         <link rel='icon' href='/favicon.ico' />
       </Head>

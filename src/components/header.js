@@ -46,7 +46,7 @@ export default function Header() {
             align='center'
             sx={{ flexBasis: "96%" }}
           >
-            WORDLE 3D
+            WOR<span style={{ color: "yellow" }}>3D</span>LE
           </Typography>
           <IconButton
             color='inherit'
