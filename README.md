@@ -1,3 +1,3 @@
-# Wordle 3D
+# WOR3DLE
 
-This is the 3D version of [Wordle](https://www.nytimes.com/games/wordle/index.html)
+[Wordle](https://www.nytimes.com/games/wordle/index.html) in physics!
