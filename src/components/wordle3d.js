@@ -5,7 +5,6 @@ import {
   useRecoilBridgeAcrossReactRoots_UNSTABLE,
   useRecoilValue,
 } from "recoil";
-import Clear from "./clear";
 import Postprocessing from "./postprocessing";
 import Borders from "./borders";
 import { useContentsState } from "./states";
@@ -15,6 +14,7 @@ import SoftKeyboard from "./keyboard";
 import { Box } from "@mui/material";
 import Header from "./header";
 import PopoverMessage from "./popover/message";
+import ModalClear from "./modal/clear";
 
 export default function Wordle3D() {
   // input chars
@@ -25,10 +25,11 @@ export default function Wordle3D() {
 
   return (
     <>
-      <Clear />
+      {/* <Clear /> */}
       <Header />
       <Box sx={{ height: "calc(100vh - 201px)" }}>
         <PopoverMessage />
+        <ModalClear />
         <Canvas
           shadows
           gl={{ stencil: false, depth: false, alpha: false, antialias: false }}
