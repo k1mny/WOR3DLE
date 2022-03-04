@@ -1,7 +1,16 @@
 import { COLOR_CLEAR, CORRECT, INCORRECT, WRONG } from "./constants";
 import { acceptableWords } from "./words";
 
-const wordleAnswer = acceptableWords[0].toUpperCase().split("");
+const date = new Date();
+const [month, day, year] = [
+  date.getMonth() + 1,
+  date.getDate(),
+  date.getFullYear(),
+];
+let index = (year << 10) + (month << 5) + day;
+const wordleAnswer = acceptableWords[index % acceptableWords.length]
+  .toUpperCase()
+  .split("");
 
 export const Judge = (posx, word) => {
   let index = 0;
