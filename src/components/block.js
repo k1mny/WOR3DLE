@@ -70,7 +70,7 @@ export default function Model({ index, boxChar, queuePos }) {
   // 一定間隔ごとに色を更新
   useFrame(({ clock }) => {
     // 判定
-    if (clock.oldTime % 30 === 0 && wordInput.length === 0) {
+    if (clock.oldTime % 20 === 0 && wordInput.length === 0) {
       api.position.subscribe((p) => {
         const judge = Judge(p[0], boxChar);
         mat.current.color = SetColor(judge);

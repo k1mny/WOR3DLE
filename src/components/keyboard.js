@@ -33,10 +33,11 @@ export default function SoftKeyboard(props) {
   }, [clear, contents.length, setClear, wordInput.length]);
 
   const onKeyPress = (button) => {
-    if (clear !== "clear" && clear !== "failed") {
+    if (clear !== "clear" && clear !== "failed" && !putEnter) {
       if (button === "{enter}" && contents.length <= 30) {
         // setContents([...contents, ...wordInput]);
-        setTimeout(() => setPutEnter(!putEnter), 1000);
+        setPutEnter(true);
+        setTimeout(() => setPutEnter(false), 3000);
         if (wordInput.length === 5) {
           if (checkInputWord(wordInput.toLowerCase())) {
             setWordInput("");
