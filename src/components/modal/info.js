@@ -43,7 +43,8 @@ export default function ModalInfo(props) {
         </Typography>
         <Divider />
         <Typography id='modal-modal-credit-me' sx={{ mt: 2 }} align='right'>
-          made by <Link href='https://twitter.com/k1mny'>kimny</Link>
+          WOR3DLE is created by{" "}
+          <Link href='https://twitter.com/k1mny'>kimny</Link>
         </Typography>
       </Box>
     </Modal>
