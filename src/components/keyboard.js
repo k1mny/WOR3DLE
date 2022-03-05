@@ -35,7 +35,7 @@ export default function SoftKeyboard(props) {
   const onKeyPress = (button) => {
     if (button === "{enter}" && contents.length <= 30) {
       // setContents([...contents, ...wordInput]);
-      setTimeout(() => setPutEnter(!putEnter), 3000);
+      setTimeout(() => setPutEnter(!putEnter), 1000);
       if (wordInput.length === 5) {
         if (checkInputWord(wordInput.toLowerCase())) {
           setWordInput("");
@@ -70,49 +70,46 @@ export default function SoftKeyboard(props) {
 
   const getButtonTheme = useCallback(() => {
     const charFlgs = contents.map((c, idx) => {
-      if (idx >= boxApi.length) {
+      if (idx >= contents.length - wordInput.length || idx >= boxApi.length) {
         return "none";
-      } else if (COLOR_CLEAR.equals(boxApi[idx].mat.current.color)) {
-        return "correct";
-      } else if (COLOR_INCORRECT.equals(boxApi[idx].mat.current.color)) {
-        return "incorrect";
+      } else if (
+        COLOR_CLEAR.equals(boxApi[idx].mat.current.color) ||
+        COLOR_INCORRECT.equals(boxApi[idx].mat.current.color)
+      ) {
+        return "exist";
       } else {
         return "wrong";
       }
     });
 
     let buttonTheme = [];
-    const correctChars = contents
-      .filter((c, idx) => {
-        return charFlgs[idx] === "correct";
-      })
-      .join(" ");
-    if (correctChars.length > 0) {
-      buttonTheme.push({
-        class: "hg-correct",
-        buttons: correctChars.toLowerCase(),
-      });
-    }
-    const incorrectChars = contents
-      .filter((c, idx) => {
-        return charFlgs[idx] === "incorrect";
-      })
-      .join(" ");
-    if (incorrectChars.length > 0) {
-      buttonTheme.push({
-        class: "hg-incorrect",
-        buttons: incorrectChars.toLowerCase(),
-      });
-    }
     const wrongChars = contents
       .filter((c, idx) => {
         return charFlgs[idx] === "wrong";
+      })
+      .filter((c, idx, self) => {
+        return self.indexOf(c) === idx;
       })
       .join(" ");
     if (wrongChars.length > 0) {
       buttonTheme.push({
         class: "hg-wrong",
         buttons: wrongChars.toLowerCase(),
+      });
+    }
+
+    const existChars = contents
+      .filter((c, idx) => {
+        return charFlgs[idx] === "exist";
+      })
+      .filter((c, idx, self) => {
+        return self.indexOf(c) === idx;
+      })
+      .join(" ");
+    if (existChars.length > 0) {
+      buttonTheme.push({
+        class: "hg-exist",
+        buttons: existChars.toLowerCase(),
       });
     }
 
