@@ -66,7 +66,7 @@ export default function ModalClear() {
     resultBoxes = resultBoxes.map((_, idx) => {
       const apiPos = boxIndex.findIndex((val) => val === idx);
       if (apiPos === -1) {
-        return "▫️";
+        return "◽";
       }
       const obj = boxApi[apiPos];
       if (COLOR_CLEAR.equals(obj.mat.current.color)) {
