@@ -39,12 +39,12 @@ export default function SoftKeyboard(props) {
     if (clear !== "clear" && clear !== "failed" && !putEnter) {
       if (button === "{enter}" && contents.length <= 30) {
         // setContents([...contents, ...wordInput]);
-        setPutEnter(true);
-        setTimeout(() => setPutEnter(false), 3000);
         if (wordInput.length === 5) {
           if (checkInputWord(wordInput.toLowerCase())) {
             setWordInput("");
             keyboard.current.clearInput();
+            setPutEnter(true);
+            setTimeout(() => setPutEnter(false), 1000);
           } else {
             setWrongMessage("Not in word list");
           }
