@@ -33,38 +33,40 @@ export default function SoftKeyboard(props) {
   }, [clear, contents.length, setClear, wordInput.length]);
 
   const onKeyPress = (button) => {
-    if (button === "{enter}" && contents.length <= 30) {
-      // setContents([...contents, ...wordInput]);
-      setTimeout(() => setPutEnter(!putEnter), 1000);
-      if (wordInput.length === 5) {
-        if (checkInputWord(wordInput.toLowerCase())) {
-          setWordInput("");
-          keyboard.current.clearInput();
+    if (clear !== "clear" && clear !== "failed") {
+      if (button === "{enter}" && contents.length <= 30) {
+        // setContents([...contents, ...wordInput]);
+        setTimeout(() => setPutEnter(!putEnter), 1000);
+        if (wordInput.length === 5) {
+          if (checkInputWord(wordInput.toLowerCase())) {
+            setWordInput("");
+            keyboard.current.clearInput();
+          } else {
+            setWrongMessage("Not in word list");
+          }
         } else {
-          setWrongMessage("Not in word list");
+          setWrongMessage("Not enough letters");
         }
-      } else {
-        setWrongMessage("Not enough letters");
       }
-    }
 
-    if (button === "{backspace}") {
-      if (wordInput.length !== 0 && contents.length !== 0) {
-        setWordInput((old) => old.slice(0, -1));
-        setBoxApi((old) => old.slice(0, -1));
-        setContents(contents.slice(0, -1));
+      if (button === "{backspace}") {
+        if (wordInput.length !== 0 && contents.length !== 0) {
+          setWordInput((old) => old.slice(0, -1));
+          setBoxApi((old) => old.slice(0, -1));
+          setContents(contents.slice(0, -1));
+        }
       }
-    }
 
-    // word input
-    if (
-      button !== "{enter}" &&
-      button !== "{backspace}" &&
-      wordInput.length < 5 &&
-      contents.length < 30
-    ) {
-      setWordInput((old) => old + button.toUpperCase());
-      setContents([...contents, button.toUpperCase()]);
+      // word input
+      if (
+        button !== "{enter}" &&
+        button !== "{backspace}" &&
+        wordInput.length < 5 &&
+        contents.length < 30
+      ) {
+        setWordInput((old) => old + button.toUpperCase());
+        setContents([...contents, button.toUpperCase()]);
+      }
     }
   };
 
