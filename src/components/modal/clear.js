@@ -2,12 +2,11 @@ import {
   Box,
   Button,
   Divider,
-  Link,
   Modal,
   Popover,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { COLOR_CLEAR, COLOR_INCORRECT } from "../constants";
 import { useBoxApiState, useClearState, useContentsState } from "../states";
@@ -27,70 +26,77 @@ const style = {
   p: 4,
 };
 
-const makeResult = (api) => {
-  const resultBoxes = api.map((obj) => {
-    if (COLOR_CLEAR.equals(obj.mat.current.color)) {
-      return "🟩";
-    } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
-      return "🟨";
-    } else {
-      return "⬛";
-    }
-  });
-  const length = Math.ceil(resultBoxes.length / 5);
-  const rows = new Array(length)
-    .fill()
-    .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(""));
-  return rows.reverse();
-};
+const date = new Date();
+const [month, day, year] = [
+  date.getMonth() + 1,
+  date.getDate(),
+  date.getFullYear(),
+];
 
 export default function ModalClear() {
   const clear = useRecoilValue(useClearState);
-  const contents = useRecoilValue(useContentsState);
   const boxApi = useRecoilValue(useBoxApiState);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const date = new Date();
-  const [month, day, year] = [
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getFullYear(),
-  ];
+  const makeResult = useCallback(
+    (api) => {
+      const resultBoxes = api.map((obj) => {
+        if (COLOR_CLEAR.equals(obj.mat.current.color)) {
+          return "🟩";
+        } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
+          return "🟨";
+        } else {
+          return "⬛";
+        }
+      });
+      const length = Math.ceil(resultBoxes.length / 5);
+      const rows = new Array(length)
+        .fill()
+        .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(""));
+      return rows.reverse();
+    },
+    [clear]
+  );
 
-  const copyTextToClipboard = (text) => {
+  const copyTextToClipboard = useCallback((text) => {
     navigator.clipboard.writeText(text).then(
       function () {
-        console.log("Async: Copying to clipboard was successful!");
+        console.log("Copied!");
       },
       function (err) {
-        console.error("Async: Could not copy text: ", err);
+        console.error("Could not copy text: ", err);
       }
     );
-  };
+  }, []);
 
   const clearRowText =
     clear === "clear" ? (boxApi.length / 5).toString() + "/6" : "X/6 ";
 
-  const handleClick = (event) => {
-    const resultText =
-      "WOR3DLE " +
-      year +
-      "/" +
-      month +
-      "/" +
-      day +
-      "\n" +
-      clearRowText +
-      "\n\n" +
-      makeResult(boxApi).join("\n");
+  const handleClick = useCallback(
+    (event) => {
+      const resultText =
+        "WOR3DLE " +
+        year +
+        "/" +
+        month +
+        "/" +
+        day +
+        "\n" +
+        clearRowText +
+        "\n\n" +
+        makeResult(boxApi).join("\n") +
+        "\n\n" +
+        "https://k1mny.github.io/wor3dle/";
 
-    copyTextToClipboard(resultText);
-    setAnchorEl(event.currentTarget);
-  };
+      copyTextToClipboard(resultText);
+      setAnchorEl(event.currentTarget);
+    },
+    [boxApi, clearRowText, copyTextToClipboard, makeResult]
+  );
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;

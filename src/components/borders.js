@@ -8,13 +8,11 @@ export default function Borders() {
   const clear = useRecoilValue(useClearState);
   return (
     <>
-      {clear !== "clear" && clear !== "failed" && (
-        <Plane
-          position={[0, -viewport.height / 2, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          args={[10, 1, 1]}
-        />
-      )}
+      <Plane
+        position={[0, -viewport.height / 2, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        args={[10, 1, 1]}
+      />
       <Plane position={[-5.2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
       <Plane position={[5.2, 0, 0]} rotation={[0, -Math.PI / 2, 0]} />
       <Plane position={[0, 0, -1.1]} rotation={[0, 0, 0]} />
