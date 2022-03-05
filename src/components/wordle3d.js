@@ -15,6 +15,7 @@ import { Box } from "@mui/material";
 import Header from "./header";
 import PopoverMessage from "./popover/message";
 import ModalClear from "./modal/clear";
+import { useEffect, useRef } from "react";
 
 export default function Wordle3D() {
   // input chars
@@ -22,6 +23,11 @@ export default function Wordle3D() {
 
   // to use recoil state inside <Canvas>
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
+
+  const dpr = useRef();
+  useEffect(() => {
+    dpr.current = window.devicePixelRatio;
+  }, []);
 
   return (
     <>
@@ -34,6 +40,7 @@ export default function Wordle3D() {
           shadows
           gl={{ stencil: false, depth: false, alpha: false, antialias: false }}
           camera={{ position: [0, -3, 10], fov: 50, near: 17, far: 40 }}
+          dpr={dpr.current}
         >
           <RecoilBridge>
             <BlockCheck />
