@@ -20,17 +20,20 @@ export default function SoftKeyboard(props) {
   const [boxApi, setBoxApi] = useRecoilState(useBoxApiState);
   const setWrongMessage = useSetRecoilState(useWrongMessageState);
   const [putEnter, setPutEnter] = useState(false);
+  const [end, setEnd] = useState(false);
   const keyboard = useRef();
 
   useEffect(() => {
-    if (contents.length >= 30 && wordInput.length === 0) {
+    if (end) {
+      if (clear !== "clear") {
+        setClear("failed");
+      }
+    } else if (contents.length >= 30 && wordInput.length === 0) {
       setTimeout(() => {
-        if (clear !== "clear") {
-          setClear("failed");
-        }
+        setEnd(true);
       }, 5000);
     }
-  }, [clear, contents.length, setClear, wordInput.length]);
+  }, [clear, contents.length, end, setClear, wordInput.length]);
 
   const onKeyPress = (button) => {
     if (clear !== "clear" && clear !== "failed" && !putEnter) {
