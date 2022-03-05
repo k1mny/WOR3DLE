@@ -6,11 +6,10 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import { useThree } from "@react-three/fiber";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { COLOR_CLEAR, COLOR_INCORRECT } from "../constants";
-import { useBoxApiState, useClearState, useContentsState } from "../states";
+import { useBoxApiState, useClearState, useWordInputState } from "../states";
 
 const style = {
   position: "absolute",
@@ -20,7 +19,7 @@ const style = {
   width: "80%",
   maxWidth: "400px",
   bgcolor: "background.paper",
-  backgroundColor: "rgba(18, 18, 18, .5)",
+  backgroundColor: "rgba(18, 18, 18, .8)",
   color: "white",
   border: "2px solid #000",
   borderRadius: "10px",
@@ -38,6 +37,7 @@ const [month, day, year] = [
 export default function ModalClear() {
   const clear = useRecoilValue(useClearState);
   const boxApi = useRecoilValue(useBoxApiState);
+  const wordInput = useRecoilValue(useWordInputState);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const ref = useRef([]);
@@ -77,20 +77,6 @@ export default function ModalClear() {
         return "⬛";
       }
     });
-    // const resultBoxes = boxIndex.map((_, idx, self) => {
-    //   const apiPos = self.findIndex((val) => val === idx);
-    //   if (apiPos === -1) {
-    //     return "▫️";
-    //   }
-    //   const obj = boxApi[apiPos];
-    //   if (COLOR_CLEAR.equals(obj.mat.current.color)) {
-    //     return "🟩";
-    //   } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
-    //     return "🟨";
-    //   } else {
-    //     return "⬛";
-    //   }
-    // });
     const length = Math.ceil(resultBoxes.length / 5);
     const rows = new Array(length)
       .fill()
@@ -110,7 +96,9 @@ export default function ModalClear() {
   }, []);
 
   const clearRowText =
-    clear === "clear" ? (boxApi.length / 5).toString() + "/6" : "X/6 ";
+    clear === "clear"
+      ? ((boxApi.length - wordInput.length) / 5).toString() + "/6"
+      : "X/6 ";
 
   const handleClick = useCallback(
     (event) => {
