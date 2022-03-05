@@ -9,6 +9,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { COLOR_CLEAR, COLOR_INCORRECT } from "../constants";
+import { getWordleAnswer } from "../logic";
 import { useBoxApiState, useClearState, useWordInputState } from "../states";
 
 const style = {
@@ -154,6 +155,11 @@ export default function ModalClear() {
           }}
         >
           <Box id='modal-modal-description' sx={{ my: 3 }}>
+            {clear !== "clear" && (
+              <Typography align='center' sx={{ mb: 2 }}>
+                answer: {getWordleAnswer()}
+              </Typography>
+            )}
             <Typography align='center'>{clearRowText}</Typography>
             {makeResult().map((row, idx) => (
               <div key={idx}>{row}</div>

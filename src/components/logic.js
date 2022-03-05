@@ -12,6 +12,10 @@ const wordleAnswer = acceptableWords[index % acceptableWords.length]
   .toUpperCase()
   .split("");
 
+export const getWordleAnswer = () => {
+  return wordleAnswer.join("");
+};
+
 export const Judge = (posx, word) => {
   let index = 0;
   if (posx < -3) {
