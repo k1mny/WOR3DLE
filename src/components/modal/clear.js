@@ -6,7 +6,8 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { useThree } from "@react-three/fiber";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { COLOR_CLEAR, COLOR_INCORRECT } from "../constants";
 import { useBoxApiState, useClearState, useContentsState } from "../states";
@@ -19,6 +20,7 @@ const style = {
   width: "80%",
   maxWidth: "400px",
   bgcolor: "background.paper",
+  backgroundColor: "rgba(18, 18, 18, .5)",
   color: "white",
   border: "2px solid #000",
   borderRadius: "10px",
@@ -38,25 +40,63 @@ export default function ModalClear() {
   const boxApi = useRecoilValue(useBoxApiState);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const makeResult = useCallback(
-    (api) => {
-      const resultBoxes = api.map((obj) => {
-        if (COLOR_CLEAR.equals(obj.mat.current.color)) {
-          return "🟩";
-        } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
-          return "🟨";
-        } else {
-          return "⬛";
-        }
+  const ref = useRef([]);
+
+  const makeResult = useCallback(() => {
+    // make index of current box position
+    boxApi.forEach((box, index) =>
+      box.api.position.subscribe((p) => (ref.current[index] = [p[0], p[1]]))
+    );
+    const boxIndex = ref.current
+      .filter((val) => {
+        return val[1] < -5 + 16;
+      })
+      .map((pos) => {
+        return Math.round(pos[0] / 2.0) + 5 * Math.round(pos[1] / 2.0);
+      })
+      .map((i, _, self) => {
+        return i + Math.abs(Math.min(...self));
       });
-      const length = Math.ceil(resultBoxes.length / 5);
-      const rows = new Array(length)
-        .fill()
-        .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(""));
-      return rows.reverse();
-    },
-    [clear]
-  );
+    if (boxIndex.length === 0) {
+      return [];
+    }
+
+    // make result text
+    let resultBoxes = Array.apply(null, Array(Math.max(...boxIndex) + 1));
+    resultBoxes = resultBoxes.map((_, idx) => {
+      const apiPos = boxIndex.findIndex((val) => val === idx);
+      if (apiPos === -1) {
+        return "▫️";
+      }
+      const obj = boxApi[apiPos];
+      if (COLOR_CLEAR.equals(obj.mat.current.color)) {
+        return "🟩";
+      } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
+        return "🟨";
+      } else {
+        return "⬛";
+      }
+    });
+    // const resultBoxes = boxIndex.map((_, idx, self) => {
+    //   const apiPos = self.findIndex((val) => val === idx);
+    //   if (apiPos === -1) {
+    //     return "▫️";
+    //   }
+    //   const obj = boxApi[apiPos];
+    //   if (COLOR_CLEAR.equals(obj.mat.current.color)) {
+    //     return "🟩";
+    //   } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
+    //     return "🟨";
+    //   } else {
+    //     return "⬛";
+    //   }
+    // });
+    const length = Math.ceil(resultBoxes.length / 5);
+    const rows = new Array(length)
+      .fill()
+      .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(""));
+    return rows.reverse();
+  }, [boxApi, anchorEl, clear]);
 
   const copyTextToClipboard = useCallback((text) => {
     navigator.clipboard.writeText(text).then(
@@ -84,14 +124,14 @@ export default function ModalClear() {
         "\n" +
         clearRowText +
         "\n\n" +
-        makeResult(boxApi).join("\n") +
+        makeResult().join("\n") +
         "\n\n" +
         "https://k1mny.github.io/wor3dle/";
 
       copyTextToClipboard(resultText);
       setAnchorEl(event.currentTarget);
     },
-    [boxApi, clearRowText, copyTextToClipboard, makeResult]
+    [clearRowText, copyTextToClipboard, makeResult]
   );
 
   const handleClose = useCallback(() => {
@@ -127,7 +167,7 @@ export default function ModalClear() {
         >
           <Box id='modal-modal-description' sx={{ my: 3 }}>
             <Typography align='center'>{clearRowText}</Typography>
-            {makeResult(boxApi).map((row, idx) => (
+            {makeResult().map((row, idx) => (
               <div key={idx}>{row}</div>
             ))}
           </Box>
