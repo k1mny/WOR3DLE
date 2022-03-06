@@ -53,7 +53,7 @@ export default function Wordle3D() {
             <ambientLight intensity={2} />
             <Physics
               gravity={[0, -50, 0]}
-              defaultContactMaterial={{ restitution: 0.8, friction: 0 }}
+              defaultContactMaterial={{ restitution: 0.7, friction: 0 }}
             >
               <Borders />
               <group position={[0, 0, -10]}>
