@@ -10,8 +10,14 @@ import {
   useWrongMessageState,
 } from "./states";
 import "react-simple-keyboard/build/css/index.css";
-import { checkInputWord } from "./logic";
-import { COLOR_CLEAR, COLOR_INCORRECT, COLOR_WRONG } from "./constants";
+import { checkInputWord, isCharWordleAnswer } from "./logic";
+import {
+  COLOR_CLEAR,
+  COLOR_INCORRECT,
+  COLOR_WRONG,
+  CORRECT,
+  INCORRECT,
+} from "./constants";
 
 export default function SoftKeyboard(props) {
   const [wordInput, setWordInput] = useRecoilState(useWordInputState);
@@ -31,7 +37,7 @@ export default function SoftKeyboard(props) {
     } else if (contents.length >= 30 && wordInput.length === 0) {
       setTimeout(() => {
         setEnd(true);
-      }, 5000);
+      }, 6000);
     }
   }, [clear, contents.length, end, setClear, wordInput.length]);
 
@@ -75,38 +81,19 @@ export default function SoftKeyboard(props) {
   };
 
   const getButtonTheme = useCallback(() => {
-    const charFlgs = contents.map((c, idx) => {
-      if (idx >= contents.length - wordInput.length || idx >= boxApi.length) {
-        return "none";
-      } else if (
-        COLOR_CLEAR.equals(boxApi[idx].mat.current.color) ||
-        COLOR_INCORRECT.equals(boxApi[idx].mat.current.color)
-      ) {
-        return "exist";
-      } else {
-        return "wrong";
-      }
-    });
-
     let buttonTheme = [];
-    const wrongChars = contents
-      .filter((c, idx) => {
-        return charFlgs[idx] === "wrong";
-      })
-      .filter((c, idx, self) => {
-        return self.indexOf(c) === idx;
-      })
-      .join(" ");
-    if (wrongChars.length > 0) {
-      buttonTheme.push({
-        class: "hg-wrong",
-        buttons: wrongChars.toLowerCase(),
-      });
-    }
 
     const existChars = contents
       .filter((c, idx) => {
-        return charFlgs[idx] === "exist";
+        if (idx < contents.length - wordInput.length) {
+          if (
+            isCharWordleAnswer(c, 0) === CORRECT ||
+            isCharWordleAnswer(c, 0) === INCORRECT
+          ) {
+            return true;
+          }
+        }
+        return false;
       })
       .filter((c, idx, self) => {
         return self.indexOf(c) === idx;
@@ -119,8 +106,23 @@ export default function SoftKeyboard(props) {
       });
     }
 
+    const wrongChars = contents
+      .filter((c) => {
+        return existChars.indexOf(c) === -1;
+      })
+      .filter((c, idx, self) => {
+        return self.indexOf(c) === idx;
+      })
+      .join(" ");
+    if (wrongChars.length > 0) {
+      buttonTheme.push({
+        class: "hg-wrong",
+        buttons: wrongChars.toLowerCase(),
+      });
+    }
+
     return buttonTheme;
-  }, [boxApi, contents, wordInput.length]);
+  }, [contents, wordInput.length]);
 
   return (
     <Box

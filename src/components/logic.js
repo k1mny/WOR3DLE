@@ -16,6 +16,16 @@ export const getWordleAnswer = () => {
   return wordleAnswer.join("");
 };
 
+export const isCharWordleAnswer = (c, pos) => {
+  if (wordleAnswer[pos] === c) {
+    return CORRECT;
+  } else if (wordleAnswer.includes(c)) {
+    return INCORRECT;
+  } else {
+    return WRONG;
+  }
+};
+
 export const Judge = (posx, word) => {
   let index = 0;
   if (posx < -3) {
@@ -30,13 +40,7 @@ export const Judge = (posx, word) => {
     index = 4;
   }
 
-  if (wordleAnswer[index] === word) {
-    return CORRECT;
-  } else if (wordleAnswer.includes(word)) {
-    return INCORRECT;
-  } else {
-    return WRONG;
-  }
+  return isCharWordleAnswer(word, index);
 };
 
 export const checkClear = (api, pos, posFloor) => {
