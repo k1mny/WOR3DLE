@@ -11,13 +11,15 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ModalSettings from "./modal/settings";
 import ModalInfo from "./modal/info";
+import { useRecoilState } from "recoil";
+import { useInfoModalState } from "./states";
 
 export default function Header() {
   const [openSettings, setOpenSettings] = useState(false);
   const handleOpenSettings = () => setOpenSettings(true);
   const handleCloseSettings = () => setOpenSettings(false);
 
-  const [openInfo, setOpenInfo] = useState(false);
+  const [openInfo, setOpenInfo] = useRecoilState(useInfoModalState);
   const handleOpenInfo = () => setOpenInfo(true);
   const handleCloseInfo = () => setOpenInfo(false);
 

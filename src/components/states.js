@@ -10,7 +10,7 @@ const dateStr =
   year.toString() + ("00" + month).slice(-2) + ("00" + day).slice(-2);
 const localStorageName = "wor3dle-results";
 
-const localStorageEffect =
+const localStorageDailyEffect =
   (key) =>
   ({ setSelf, onSet }) => {
     if (typeof window === "undefined") {
@@ -41,6 +41,31 @@ const localStorageEffect =
     });
   };
 
+const localStorageEffect =
+  (key) =>
+  ({ setSelf, onSet }) => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    let savedValue = localStorage.getItem(localStorageName);
+    if (savedValue != null) {
+      const lsObj = JSON.parse(savedValue);
+      if (lsObj[key] != null) {
+        setSelf(JSON.parse(lsObj[key]));
+      }
+    }
+
+    onSet((newValue, _, isReset) => {
+      console.log("set: ", newValue);
+      savedValue = localStorage.getItem(localStorageName);
+      const lsObj = JSON.parse(savedValue);
+      localStorage.setItem(
+        localStorageName,
+        JSON.stringify({ ...lsObj, [key]: newValue })
+      );
+    });
+  };
+
 export const useBoxApiState = atom({
   key: "useBoxApiState",
   default: [],
@@ -50,13 +75,13 @@ export const useBoxApiState = atom({
 export const useClearState = atom({
   key: "useClearState",
   default: null,
-  effects: [localStorageEffect("game-state")],
+  effects: [localStorageDailyEffect("game-state")],
 });
 
 export const useWordleResultTextState = atom({
   key: "useWordleResultTextState",
   default: [],
-  effects: [localStorageEffect("result-text")],
+  effects: [localStorageDailyEffect("result-text")],
 });
 
 export const useWordInputState = atom({
@@ -72,4 +97,10 @@ export const useContentsState = atom({
 export const useWrongMessageState = atom({
   key: "useWrongMessageState",
   default: "",
+});
+
+export const useInfoModalState = atom({
+  key: "useInfoModalState",
+  default: true,
+  effects: [localStorageEffect("is-info-open")],
 });
