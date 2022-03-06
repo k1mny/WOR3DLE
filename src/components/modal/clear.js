@@ -7,10 +7,15 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { COLOR_CLEAR, COLOR_INCORRECT } from "../constants";
 import { getWordleAnswer } from "../logic";
-import { useBoxApiState, useClearState, useWordInputState } from "../states";
+import {
+  useBoxApiState,
+  useClearState,
+  useWordInputState,
+  useWordleResultTextState,
+} from "../states";
 
 const style = {
   position: "absolute",
@@ -39,11 +44,12 @@ export default function ModalClear() {
   const clear = useRecoilValue(useClearState);
   const boxApi = useRecoilValue(useBoxApiState);
   const wordInput = useRecoilValue(useWordInputState);
+  const [resultText, setResultText] = useRecoilState(useWordleResultTextState);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const ref = useRef([]);
 
-  const makeResult = useCallback(() => {
+  useEffect(() => {
     // make index of current box position
     boxApi.forEach((box, index) =>
       box.api.position.subscribe((p) => (ref.current[index] = [p[0], p[1]]))
@@ -82,8 +88,8 @@ export default function ModalClear() {
     const rows = new Array(length)
       .fill()
       .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(""));
-    return rows.reverse();
-  }, [boxApi, anchorEl, clear]);
+    setResultText(rows.reverse());
+  }, [boxApi, anchorEl, clear, setResultText]);
 
   const copyTextToClipboard = useCallback((text) => {
     navigator.clipboard.writeText(text).then(
@@ -103,7 +109,7 @@ export default function ModalClear() {
 
   const handleClick = useCallback(
     (event) => {
-      const resultText =
+      const resultTextClip =
         "WOR3DLE " +
         year +
         "/" +
@@ -113,14 +119,14 @@ export default function ModalClear() {
         "\n" +
         clearRowText +
         "\n\n" +
-        makeResult().join("\n") +
+        resultText.join("\n") +
         "\n\n" +
         "https://k1mny.github.io/wor3dle/";
 
-      copyTextToClipboard(resultText);
+      copyTextToClipboard(resultTextClip);
       setAnchorEl(event.currentTarget);
     },
-    [clearRowText, copyTextToClipboard, makeResult]
+    [clearRowText, copyTextToClipboard, resultText]
   );
 
   const handleClose = useCallback(() => {
@@ -161,7 +167,7 @@ export default function ModalClear() {
               </Typography>
             )}
             <Typography align='center'>{clearRowText}</Typography>
-            {makeResult().map((row, idx) => (
+            {resultText.map((row, idx) => (
               <div key={idx}>{row}</div>
             ))}
           </Box>
