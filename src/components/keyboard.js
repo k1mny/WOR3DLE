@@ -120,7 +120,7 @@ export default function SoftKeyboard(props) {
     }
 
     return buttonTheme;
-  }, [boxApi, contents, putEnter]);
+  }, [boxApi, contents, wordInput.length]);
 
   return (
     <Box
