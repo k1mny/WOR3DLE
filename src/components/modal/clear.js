@@ -13,6 +13,7 @@ import { getWordleAnswer } from "../logic";
 import {
   useBoxApiState,
   useClearState,
+  useCountInputState,
   useWordInputState,
   useWordleResultTextState,
 } from "../states";
@@ -45,6 +46,7 @@ export default function ModalClear() {
   const boxApi = useRecoilValue(useBoxApiState);
   const wordInput = useRecoilValue(useWordInputState);
   const [resultText, setResultText] = useRecoilState(useWordleResultTextState);
+  const [countInput, setCountInput] = useRecoilState(useCountInputState);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const ref = useRef([]);
@@ -102,10 +104,14 @@ export default function ModalClear() {
     );
   }, []);
 
+  useEffect(() => {
+    if (clear !== "clear" && clear !== "failed") {
+      setCountInput((boxApi.length - wordInput.length) / 5);
+    }
+  }, [boxApi, clear, setCountInput, wordInput]);
+
   const clearRowText =
-    clear === "clear"
-      ? ((boxApi.length - wordInput.length) / 5).toString() + "/6"
-      : "X/6 ";
+    clear === "clear" ? countInput.toString() + "/6" : "X/6 ";
 
   const handleClick = useCallback(
     (event) => {

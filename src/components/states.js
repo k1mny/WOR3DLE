@@ -104,3 +104,9 @@ export const useInfoModalState = atom({
   default: true,
   effects: [localStorageEffect("is-info-open")],
 });
+
+export const useCountInputState = atom({
+  key: "useCountInputState",
+  default: 0,
+  effects: [localStorageDailyEffect("count-input")],
+});
