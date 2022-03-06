@@ -52,11 +52,6 @@ export default function Model({ index, boxChar, queuePos }) {
     }
   }, [api, wordInput, queuePos]);
 
-  const setBoxApi = useSetRecoilState(useBoxApiState);
-  useEffect(() => {
-    setBoxApi((old) => [...old, { id: index, ref: ref, api: api, mat: mat }]);
-  }, [api, index, ref, mat, setBoxApi]);
-
   useEffect(() => {
     // color while in the input queue
     mat.current.color = COLOR_INIT;
@@ -70,9 +65,9 @@ export default function Model({ index, boxChar, queuePos }) {
   // 一定間隔ごとに色を更新
   useFrame(({ clock }) => {
     // 判定
-    if (clock.oldTime % 20 === 0) {
+    if (clock.oldTime % 10 === 0) {
       api.position.subscribe((p) => {
-        if (p[1] < -5 + 16) {
+        if (p[1] < -5 + 17) {
           const judge = Judge(p[0], boxChar);
           mat.current.color = SetColor(judge);
           matText.current.color =
@@ -83,6 +78,11 @@ export default function Model({ index, boxChar, queuePos }) {
       });
     }
   });
+
+  const setBoxApi = useSetRecoilState(useBoxApiState);
+  useEffect(() => {
+    setBoxApi((old) => [...old, { id: index, ref: ref, api: api, mat: mat }]);
+  }, [api, index, ref, mat, setBoxApi]);
 
   const textGeo = new TextGeometry(boxChar, {
     font: new FontLoader().parse(threeFontJson),
