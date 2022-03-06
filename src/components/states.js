@@ -1,5 +1,3 @@
-import deepmerge from "deepmerge";
-import merge from "deepmerge";
 import { atom } from "recoil";
 
 const date = new Date();
@@ -36,9 +34,7 @@ const localStorageEffect =
           ...targetObj,
           [key]: newValue,
         };
-        console.log("lsObj: ", lsObj);
         setObj = { ...lsObj, [dateStr]: newKeyObj };
-        console.log("setObj: ", setObj);
       }
 
       localStorage.setItem(localStorageName, JSON.stringify(setObj));
