@@ -33,7 +33,12 @@ export default function Wordle3D() {
     <>
       {/* <Clear /> */}
       <Header />
-      <Box sx={{ height: "calc(100vh - 201px)" }}>
+      <Box
+        sx={{
+          height: "calc(100vh - 201px)",
+          height: "calc(var(--vh, 1vh) * 100 - 201px)",
+        }}
+      >
         <PopoverMessage />
         <ModalClear />
         <Canvas
