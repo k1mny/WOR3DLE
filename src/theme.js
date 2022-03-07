@@ -1,8 +1,8 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
     // primary: {
     //   main: "#556cd6",
     // },
@@ -14,17 +14,17 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          height: "51px",
-          minHeight: "51px",
+          height: '51px',
+          minHeight: '51px',
         },
       },
     },
     MuiToolbar: {
       styleOverrides: {
         root: {
-          "&.MuiToolbar-root": {
-            height: "51px",
-            minHeight: "51px",
+          '&.MuiToolbar-root': {
+            height: '51px',
+            minHeight: '51px',
           },
         },
       },

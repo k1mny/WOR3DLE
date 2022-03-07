@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   AppBar,
   Box,
@@ -6,13 +6,13 @@ import {
   Modal,
   Toolbar,
   Typography,
-} from "@mui/material";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ModalSettings from "./modal/settings";
-import ModalInfo from "./modal/info";
-import { useRecoilState } from "recoil";
-import { useInfoModalState } from "./states";
+} from '@mui/material';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ModalSettings from './modal/settings';
+import ModalInfo from './modal/info';
+import { useRecoilState } from 'recoil';
+import { useInfoModalState } from './states';
 
 export default function Header() {
   const [openSettings, setOpenSettings] = useState(false);
@@ -25,35 +25,35 @@ export default function Header() {
 
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position="static">
         <Toolbar
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <IconButton
-            color='inherit'
-            aria-label='Info'
-            sx={{ flexBasis: "2%" }}
+            color="inherit"
+            aria-label="Info"
+            sx={{ flexBasis: '2%' }}
             onClick={handleOpenInfo}
           >
             <HelpOutlineOutlinedIcon />
           </IconButton>
           <Typography
-            variant='h1'
-            color='inherit'
-            fontSize='2rem'
-            align='center'
-            sx={{ flexBasis: "96%" }}
+            variant="h1"
+            color="inherit"
+            fontSize="2rem"
+            align="center"
+            sx={{ flexBasis: '96%' }}
           >
-            WOR<span style={{ color: "yellow" }}>3D</span>LE
+            WOR<span style={{ color: 'yellow' }}>3D</span>LE
           </Typography>
           <IconButton
-            color='inherit'
-            aria-label='Setting'
-            sx={{ flexBasis: "2%" }}
+            color="inherit"
+            aria-label="Setting"
+            sx={{ flexBasis: '2%' }}
             onClick={handleOpenSettings}
           >
             <SettingsOutlinedIcon />

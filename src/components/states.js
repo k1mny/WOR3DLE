@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 const date = new Date();
 const [month, day, year] = [
@@ -7,13 +7,13 @@ const [month, day, year] = [
   date.getFullYear(),
 ];
 const dateStr =
-  year.toString() + ("00" + month).slice(-2) + ("00" + day).slice(-2);
-const localStorageName = "wor3dle-results";
+  year.toString() + ('00' + month).slice(-2) + ('00' + day).slice(-2);
+const localStorageName = 'wor3dle-results';
 
 const localStorageDailyEffect =
   (key) =>
   ({ setSelf, onSet }) => {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       return;
     }
     let savedValue = localStorage.getItem(localStorageName);
@@ -44,7 +44,7 @@ const localStorageDailyEffect =
 const localStorageEffect =
   (key) =>
   ({ setSelf, onSet }) => {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       return;
     }
     let savedValue = localStorage.getItem(localStorageName);
@@ -56,7 +56,7 @@ const localStorageEffect =
     }
 
     onSet((newValue, _, isReset) => {
-      console.log("set: ", newValue);
+      console.log('set: ', newValue);
       savedValue = localStorage.getItem(localStorageName);
       const lsObj = JSON.parse(savedValue);
       localStorage.setItem(
@@ -67,46 +67,46 @@ const localStorageEffect =
   };
 
 export const useBoxApiState = atom({
-  key: "useBoxApiState",
+  key: 'useBoxApiState',
   default: [],
   dangerouslyAllowMutability: true,
 });
 
 export const useClearState = atom({
-  key: "useClearState",
+  key: 'useClearState',
   default: null,
-  effects: [localStorageDailyEffect("game-state")],
+  effects: [localStorageDailyEffect('game-state')],
 });
 
 export const useWordleResultTextState = atom({
-  key: "useWordleResultTextState",
+  key: 'useWordleResultTextState',
   default: [],
-  effects: [localStorageDailyEffect("result-text")],
+  effects: [localStorageDailyEffect('result-text')],
 });
 
 export const useWordInputState = atom({
-  key: "useWordInputState",
-  default: "",
+  key: 'useWordInputState',
+  default: '',
 });
 
 export const useContentsState = atom({
-  key: "useContentsState",
+  key: 'useContentsState',
   default: [],
 });
 
 export const useWrongMessageState = atom({
-  key: "useWrongMessageState",
-  default: "",
+  key: 'useWrongMessageState',
+  default: '',
 });
 
 export const useInfoModalState = atom({
-  key: "useInfoModalState",
+  key: 'useInfoModalState',
   default: true,
-  effects: [localStorageEffect("is-info-open")],
+  effects: [localStorageEffect('is-info-open')],
 });
 
 export const useCountInputState = atom({
-  key: "useCountInputState",
+  key: 'useCountInputState',
   default: 0,
-  effects: [localStorageDailyEffect("count-input")],
+  effects: [localStorageDailyEffect('count-input')],
 });

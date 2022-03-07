@@ -1,5 +1,5 @@
-import { COLOR_CLEAR, CORRECT, INCORRECT, WRONG } from "./constants";
-import { acceptableWords, answerWords } from "./words";
+import { COLOR_CLEAR, CORRECT, INCORRECT, WRONG } from './constants';
+import { acceptableWords, answerWords } from './words';
 
 const date = new Date();
 const [month, day, year] = [
@@ -10,10 +10,10 @@ const [month, day, year] = [
 let index = (year << 10) + (month << 5) + day;
 const wordleAnswer = answerWords[index % answerWords.length]
   .toUpperCase()
-  .split("");
+  .split('');
 
 export const getWordleAnswer = () => {
-  return wordleAnswer.join("");
+  return wordleAnswer.join('');
 };
 
 export const isCharWordleAnswer = (c, pos) => {

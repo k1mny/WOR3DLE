@@ -1,8 +1,8 @@
-import { useFrame, useThree } from "@react-three/fiber";
-import { useCallback, useEffect, useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { checkClear } from "./logic";
-import { useBoxApiState, useClearState } from "./states";
+import { useFrame, useThree } from '@react-three/fiber';
+import { useCallback, useEffect, useRef } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { checkClear } from './logic';
+import { useBoxApiState, useClearState } from './states';
 
 const BlockCheck = () => {
   const ref = useRef([]);
@@ -21,9 +21,9 @@ const BlockCheck = () => {
   const [clear, setClear] = useRecoilState(useClearState);
 
   const checkClearContinuously = useCallback(() => {
-    if (clear !== "clear" && clear !== "failed") {
+    if (clear !== 'clear' && clear !== 'failed') {
       const posFloor = -viewport.height / 2;
-      setClear(checkClear(boxApi, ref, posFloor) ? "clear" : "progressing");
+      setClear(checkClear(boxApi, ref, posFloor) ? 'clear' : 'progressing');
     }
   }, [clear, viewport.height, setClear, boxApi, ref]);
 

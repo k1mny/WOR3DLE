@@ -1,7 +1,7 @@
-import { usePlane } from "@react-three/cannon";
-import { useThree } from "@react-three/fiber";
-import { useRecoilValue } from "recoil";
-import { useClearState } from "./states";
+import { usePlane } from '@react-three/cannon';
+import { useThree } from '@react-three/fiber';
+import { useRecoilValue } from 'recoil';
+import { useClearState } from './states';
 
 export default function Borders() {
   const { viewport } = useThree();

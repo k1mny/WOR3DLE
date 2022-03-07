@@ -5,31 +5,31 @@ import {
   Modal,
   Popover,
   Typography,
-} from "@mui/material";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { COLOR_CLEAR, COLOR_INCORRECT } from "../constants";
-import { getWordleAnswer } from "../logic";
+} from '@mui/material';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { COLOR_CLEAR, COLOR_INCORRECT } from '../constants';
+import { getWordleAnswer } from '../logic';
 import {
   useBoxApiState,
   useClearState,
   useCountInputState,
   useWordInputState,
   useWordleResultTextState,
-} from "../states";
+} from '../states';
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80%",
-  maxWidth: "400px",
-  bgcolor: "background.paper",
-  backgroundColor: "rgba(18, 18, 18, .8)",
-  color: "white",
-  border: "2px solid #000",
-  borderRadius: "10px",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  maxWidth: '400px',
+  bgcolor: 'background.paper',
+  backgroundColor: 'rgba(18, 18, 18, .8)',
+  color: 'white',
+  border: '2px solid #000',
+  borderRadius: '10px',
   boxShadow: 24,
   p: 4,
 };
@@ -75,59 +75,59 @@ export default function ModalClear() {
     resultBoxes = resultBoxes.map((_, idx) => {
       const apiPos = boxIndex.findIndex((val) => val === idx);
       if (apiPos === -1) {
-        return "◽";
+        return '◽';
       }
       const obj = boxApi[apiPos];
       if (COLOR_CLEAR.equals(obj.mat.current.color)) {
-        return "🟩";
+        return '🟩';
       } else if (COLOR_INCORRECT.equals(obj.mat.current.color)) {
-        return "🟨";
+        return '🟨';
       } else {
-        return "⬛";
+        return '⬛';
       }
     });
     const length = Math.ceil(resultBoxes.length / 5);
     const rows = new Array(length)
       .fill()
-      .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(""));
+      .map((_, i) => resultBoxes.slice(i * 5, (i + 1) * 5).join(''));
     setResultText(rows.reverse());
   }, [boxApi, anchorEl, clear, setResultText]);
 
   const copyTextToClipboard = useCallback((text) => {
     navigator.clipboard.writeText(text).then(
       function () {
-        console.log("Copied!");
+        console.log('Copied!');
       },
       function (err) {
-        console.error("Could not copy text: ", err);
+        console.error('Could not copy text: ', err);
       }
     );
   }, []);
 
   useEffect(() => {
-    if (clear !== "clear" && clear !== "failed") {
+    if (clear !== 'clear' && clear !== 'failed') {
       setCountInput((boxApi.length - wordInput.length) / 5);
     }
   }, [boxApi, clear, setCountInput, wordInput]);
 
   const clearRowText =
-    clear === "clear" ? countInput.toString() + "/6" : "X/6 ";
+    clear === 'clear' ? countInput.toString() + '/6' : 'X/6 ';
 
   const handleClick = useCallback(
     (event) => {
       const resultTextClip =
-        "WOR3DLE " +
+        'WOR3DLE ' +
         year +
-        "/" +
+        '/' +
         month +
-        "/" +
+        '/' +
         day +
-        "\n" +
+        '\n' +
         clearRowText +
-        "\n\n" +
-        resultText.join("\n") +
-        "\n\n" +
-        "https://k1mny.github.io/wor3dle/";
+        '\n\n' +
+        resultText.join('\n') +
+        '\n\n' +
+        'https://k1mny.github.io/wor3dle/';
 
       copyTextToClipboard(resultTextClip);
       setAnchorEl(event.currentTarget);
@@ -140,46 +140,46 @@ export default function ModalClear() {
   }, []);
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Modal
-      open={clear === "clear" || clear === "failed"}
+      open={clear === 'clear' || clear === 'failed'}
       onClose={handleClose}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
         <Typography
-          id='modal-modal-title'
-          variant='h6'
-          component='h2'
-          align='center'
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+          align="center"
         >
-          WOR3DLE {year + "/" + month + "/" + day}
+          WOR3DLE {year + '/' + month + '/' + day}
         </Typography>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Box id='modal-modal-description' sx={{ my: 3 }}>
-            {clear !== "clear" && (
-              <Typography align='center' sx={{ mb: 2 }}>
+          <Box id="modal-modal-description" sx={{ my: 3 }}>
+            {clear !== 'clear' && (
+              <Typography align="center" sx={{ mb: 2 }}>
                 answer: {getWordleAnswer()}
               </Typography>
             )}
-            <Typography align='center'>{clearRowText}</Typography>
+            <Typography align="center">{clearRowText}</Typography>
             {resultText.map((row, idx) => (
               <div key={idx}>{row}</div>
             ))}
           </Box>
           <Divider />
           <Button
-            variant='outlined'
+            variant="outlined"
             aria-describedby={id}
             onClick={handleClick}
           >
@@ -191,8 +191,8 @@ export default function ModalClear() {
             anchorEl={anchorEl}
             onClose={handleClose}
             anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
+              vertical: 'bottom',
+              horizontal: 'left',
             }}
           >
             <Typography sx={{ p: 2 }}>Copied to clipboard!</Typography>

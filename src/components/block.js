@@ -1,12 +1,12 @@
-import { useBox } from "@react-three/cannon";
-import { useFrame, extend } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { useBoxApiState, useWordInputState } from "./states";
-import threeFontJson from "three/examples/fonts/helvetiker_bold.typeface.json";
-import { Judge } from "./logic";
+import { useBox } from '@react-three/cannon';
+import { useFrame, extend } from '@react-three/fiber';
+import { useEffect, useRef } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { useBoxApiState, useWordInputState } from './states';
+import threeFontJson from 'three/examples/fonts/helvetiker_bold.typeface.json';
+import { Judge } from './logic';
 import {
   COLOR_BOX_LETTER,
   COLOR_BOX_LETTER_INIT,
@@ -17,7 +17,7 @@ import {
   COLOR_WRONG,
   CORRECT,
   INCORRECT,
-} from "./constants";
+} from './constants';
 extend({ TextGeometry });
 
 const SetColor = (judge) => {
@@ -102,11 +102,11 @@ export default function Model({ index, boxChar, queuePos }) {
         rotation={[0, Math.PI / 2, 0]}
         args={[textGeo]}
       >
-        <meshStandardMaterial ref={matText} attach='material' opacity={0.5} />
+        <meshStandardMaterial ref={matText} attach="material" opacity={0.5} />
       </mesh>
       <mesh>
         <boxBufferGeometry args={[2, 2, 2]} />
-        <meshStandardMaterial ref={mat} attach='material' opacity={1} />
+        <meshStandardMaterial ref={mat} attach="material" opacity={1} />
       </mesh>
     </group>
   );

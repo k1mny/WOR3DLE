@@ -1,7 +1,7 @@
-import { ThemeProvider } from "@mui/material";
-import { RecoilRoot } from "recoil";
-import "../styles/globals.css";
-import theme from "../theme";
+import { ThemeProvider } from '@mui/material';
+import { RecoilRoot } from 'recoil';
+import '../styles/globals.css';
+import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {
   return (
