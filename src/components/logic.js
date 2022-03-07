@@ -1,5 +1,5 @@
 import { COLOR_CLEAR, CORRECT, INCORRECT, WRONG } from "./constants";
-import { acceptableWords } from "./words";
+import { acceptableWords, answerWords } from "./words";
 
 const date = new Date();
 const [month, day, year] = [
@@ -8,7 +8,7 @@ const [month, day, year] = [
   date.getFullYear(),
 ];
 let index = (year << 10) + (month << 5) + day;
-const wordleAnswer = acceptableWords[index % acceptableWords.length]
+const wordleAnswer = answerWords[index % answerWords.length]
   .toUpperCase()
   .split("");
 
